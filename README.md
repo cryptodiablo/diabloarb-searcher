@@ -1,4 +1,12 @@
-# DiabloArb — Solana backrun searcher
+<p align="center">
+  <a href="https://diabloarb.com"><img src="logo.svg" width="88" height="88" alt="Diablo Arb logo"></a>
+</p>
+
+<h1 align="center">DiabloArb — Solana backrun searcher</h1>
+
+<p align="center">
+  <a href="https://diabloarb.com"><b>diabloarb.com</b></a> · <a href="mailto:info@diabloarb.com">info@diabloarb.com</a>
+</p>
 
 We run a low-latency **backrun arbitrage searcher** on Solana. When a swap moves a pool's price away from the rest of
 the market, we close the gap with a cyclic arbitrage placed **right behind that swap** — never in front of it.
@@ -68,4 +76,5 @@ What we need from you:
 
 ## Contact
 
-info@diablo.bot
+- Email: [info@diabloarb.com](mailto:info@diabloarb.com)
+- Website: [diabloarb.com](https://diabloarb.com)
