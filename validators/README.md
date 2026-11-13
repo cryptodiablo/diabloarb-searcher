@@ -136,6 +136,25 @@ usual channels; BAM or Harmonic includes them like any other transaction.
 | Firedancer | A; B — ask us | Priority fees of our backruns in your slots |
 | Agave | B | Priority fees of our transactions sent to you directly |
 
+### Will I lose JitoSOL or Solana Foundation stake?
+
+Not with paths A and B: you stay on BAM, your client and your commissions do not change.
+
+- **JitoSOL** (Jito's StakeNet) delegates only to validators connected to BAM in most of the recent epochs
+  (`running_bam_score` in the [Steward program](https://www.jito.network/docs/stakenet/jito-steward/program-overview/)).
+  The other conditions are the Jito client, MEV commission of 10 % or less, and not being blacklisted
+  ([criteria](https://www.jito.network/docs/jitosol/jitosol-liquid-staking/stake-pool-operations/delegation-criteria/)).
+  Leaving BAM would cost you that stake, so we never ask you to leave it.
+- **The Solana Foundation Delegation Program** does not require BAM. Its matching stake follows your stake from other
+  sources, so losing JitoSOL would reduce it too. Its transaction processing rules are: release shreds every 50 ms, do
+  not delay TPU transactions beyond 50 ms, do not censor them
+  ([criteria](https://solana.org/delegation-criteria)). Path A sends a copy of the shreds as they are released and adds
+  no delay. Path B only changes the priority our sender gets on your TPU. For path C on a Jito validator without BAM, keep
+  the relayer's packet delay at 50 ms or less.
+- Sending your leader shreds to an extra address is ordinary: Jito-Solana's `--shred-receiver-address`, which path A
+  uses, is the same mechanism ShredStream receivers use.
+- Our transactions only go after a user's transaction: no sandwiches and no front-running.
+
 **How much?** We cannot promise a number in advance. It depends on your share of slots and on how much arbitrage your
 blocks carry. Path A alone pays only the fees of our backruns that land in your own slots: expect modest amounts. Path C,
 where your setup allows it, is where most of the revenue is. The first week together shows the real figures: we send a
@@ -478,6 +497,9 @@ detect_setup:
   firedancer: "Firedancer without bam or harmonic"
   agave: "none of the above"
 replaces_bam_or_harmonic: false   # the kit runs next to them; nothing is turned off
+stake_programs:
+  jitosol: "needs a BAM connection in most recent epochs (Steward running_bam_score); paths A and B keep it"
+  sfdp: "no BAM requirement; shreds every 50 ms, TPU delay at most 50 ms (path C relayer packet delay <= 50 ms)"
 paths_by_setup:
   bam: [A]
   harmonic: [A_if_second_shred_address_accepted]

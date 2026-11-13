@@ -64,6 +64,8 @@ printf '%s' "$ENDPOINT" | grep -Eq '^https?://[^/[:space:]]+$' || die "--endpoin
 printf '%s' "$IDENTITY" | grep -Eq '^[1-9A-HJ-NP-Za-km-z]{32,44}$' || die "--identity must be your validator identity public key"
 printf '%s' "$PUBLIC_IP" | grep -Eq '^[0-9]{1,3}(\.[0-9]{1,3}){3}$' || die "--public-ip must be an IPv4 address"
 printf '%s' "$DELAY" | grep -Eq '^[0-9]+$' || die "--delay-ms must be a number"
+# the Solana Foundation Delegation Program: TPU transactions may not be delayed beyond 50 ms (solana.org/delegation-criteria)
+[ "$DELAY" -le 50 ] || warn "--delay-ms $DELAY is over 50 ms: the Solana Foundation Delegation Program does not allow delaying TPU transactions beyond 50 ms"
 case "$CLUSTER" in
   testnet) ;;
   mainnet) [ "$TESTED" = 1 ] || die "on mainnet only after a testnet trial with DiabloArb: add --tested-on-testnet when you have done it" ;;
