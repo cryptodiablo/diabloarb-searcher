@@ -113,6 +113,34 @@ and test it on testnet first.
 bundle lands whole or not at all. With A and B the user's transaction has already executed when we see it, so we send
 only our own transaction, and it can only land after it.
 
+### Does this replace BAM or Harmonic?
+
+No. Nothing in this kit replaces or turns off BAM, Harmonic, Jito or your client: you keep your setup as it is.
+
+- Path A adds one more address to the list of places your leader shreds already go.
+- Path B adds our sender keys to your stake overrides.
+- Path C points a relayer at us. It is possible only where the pending flow reaches your own machine.
+
+On BAM and Harmonic your users' transactions are ordered by the BAM node or by Harmonic's builders, not by your
+validator, so path A is the one that applies. We see your block while you produce it and send our backruns through the
+usual channels; BAM or Harmonic includes them like any other transaction.
+
+### What you get on each setup
+
+| Setup | What you turn on | What you get |
+|---|---|---|
+| BAM | A | Priority fees and tips of our backruns that land in your slots. No pending flow: Jito holds it inside the BAM node |
+| Harmonic | A, if your client sends shreds to a second address | The same as BAM |
+| Jito with a relayer | A, B, C | Tips of bundles behind your users' transactions (C), shared with your stakers through Jito's tip program, plus the fees from A and B |
+| Jito without a relayer | A, B; C after you add a relayer | The fees from A and B; with a relayer, the tips of C as above |
+| Firedancer | A; B — ask us | Priority fees of our backruns in your slots |
+| Agave | B | Priority fees of our transactions sent to you directly |
+
+**How much?** We cannot promise a number in advance. It depends on your share of slots and on how much arbitrage your
+blocks carry. Path A alone pays only the fees of our backruns that land in your own slots: expect modest amounts. Path C,
+where your setup allows it, is where most of the revenue is. The first week together shows the real figures: we send a
+report per validator (section 8).
+
 ## 4. Before you start
 
 Send us (none of this is secret):
@@ -449,6 +477,7 @@ detect_setup:
   jito: "--block-engine-url and none of the above"
   firedancer: "Firedancer without bam or harmonic"
   agave: "none of the above"
+replaces_bam_or_harmonic: false   # the kit runs next to them; nothing is turned off
 paths_by_setup:
   bam: [A]
   harmonic: [A_if_second_shred_address_accepted]
