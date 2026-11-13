@@ -74,6 +74,15 @@ What we need from you:
 3. a status per bundle — delivered to the leader, landed, or dropped and why;
 4. your transaction and our backrun treated as one unit, in one auction.
 
+## Validator integration kit
+
+Step-by-step guide and scripts for validator operators: find out which setup you run (BAM, Harmonic, Jito with or
+without a relayer, Firedancer, Agave), the share of each setup on the network, and the integration path that fits it.
+Every script is a dry run until `--apply` and prints its own undo.
+
+- [validators/README.md](validators/README.md) — the guide
+- `bash validators/scripts/detect-setup.sh` — run it on your validator host first
+
 ## Contact
 
 - Email: [info@diabloarb.com](mailto:info@diabloarb.com)

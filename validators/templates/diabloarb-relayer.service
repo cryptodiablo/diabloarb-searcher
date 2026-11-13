@@ -1,0 +1,30 @@
+# Relayer in front of the validator's TPU, copying DEX transactions to DiabloArb (path C2).
+# Written by scripts/relayer-install.sh; the @NAMES@ are filled in by it.
+[Unit]
+Description=Jito transaction relayer (v0.4.2) for DiabloArb order flow
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=@USER@
+ExecStart=@PREFIX@/bin/jito-transaction-relayer \
+  --keypair-path @PREFIX@/keys/relayer-auth.json \
+  --signing-key-pem-path @PREFIX@/keys/private.pem \
+  --verifying-key-pem-path @PREFIX@/keys/public.pem \
+  --block-engine-url @ENDPOINT@ \
+  --public-ip @PUBLIC_IP@ \
+  --tpu-quic-port 11228 \
+  --tpu-quic-fwd-port 11229 \
+  --grpc-bind-ip 127.0.0.1 \
+  --grpc-bind-port 11226 \
+  --rpc-servers @RPC@ \
+  --websocket-servers @WS@ \
+  --allowed-validators @IDENTITY@ \
+  --packet-delay-ms @DELAY_MS@
+Restart=always
+RestartSec=2
+LimitNOFILE=1000000
+Environment=RUST_LOG=info
+
+[Install]
+WantedBy=multi-user.target
