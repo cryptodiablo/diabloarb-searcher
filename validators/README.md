@@ -18,8 +18,9 @@ git clone https://github.com/cryptodiablo/diabloarb-searcher && cd diabloarb-sea
 bash scripts/detect-setup.sh            # on the validator host: what you run and which path fits
 ```
 
-Send us the last line it prints. Then follow the path for your setup; each script below is a dry run until you add
-`--apply`, and prints how to undo what it did.
+Send us the summary line it prints at the end (your validator's public key and setup, nothing secret). We will reply
+with the path that fits you, what to set up and the terms. Then follow the path for your setup; each script below is
+a dry run until you add `--apply`, and prints how to undo what it did.
 
 | Script | Path | What it does |
 |---|---|---|
@@ -88,7 +89,7 @@ There are three ways to work together. They can be combined.
 | Setup | A | B | C | Who holds the pending flow |
 |---|---|---|---|---|
 | BAM | yes | no: users send to the BAM node, not to you | no | Jito, inside the BAM node |
-| Harmonic | yes, if your client takes a second shred address (section 4) | no: users send to Harmonic's Remote TPU | no | Harmonic |
+| Harmonic | yes, if your client takes a second shred address (section 5) | no: users send to Harmonic's Remote TPU | no | Harmonic |
 | Jito with a relayer | yes | yes, on the relayer | **yes, easiest**: point your relayer at us (section 6.1) | you |
 | Jito without a relayer | yes | yes | yes, by adding a relayer: testnet trial with us first (section 6.2) | you |
 | Firedancer | yes | ask us | no relay support in Firedancer | you |
@@ -102,6 +103,15 @@ C, costs you nothing and has no effect on your users.
 
 If you run BAM or Harmonic and want to sell your flow, the flow is not on your machine: users send it to Jito's or
 Harmonic's servers. That conversation is with them; we are happy to join it.
+
+**Does it slow you down?** Paths A and B add no delay to your users' transactions. Path C uses a relayer that holds
+each transaction for a short delay before it reaches your validator (50 ms by default). If you already run a relayer,
+that delay is already there and pointing it at us adds nothing; if you add one, you choose the delay together with us
+and test it on testnet first.
+
+**Bundles.** Only path C uses bundles: the user's transaction first, our backrun second, with the tip inside; the
+bundle lands whole or not at all. With A and B the user's transaction has already executed when we see it, so we send
+only our own transaction, and it can only land after it.
 
 ## 4. Before you start
 
